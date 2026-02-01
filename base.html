@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Blogi{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; }
+        nav { background: #333; color: white; padding: 15px 20px; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        nav a:hover { text-decoration: underline; }
+        .nav-right { float: right; }
+        .nav-right a { margin-right: 10px; }
+        nav::after { content: ""; display: table; clear: both; }
+        .container { margin: 20px; max-width: 900px; }
+        
+        .post {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .post h2 {
+            margin: 0;
+        }
+
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            background-color: #0066cc;
+            color: white;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #004c99;
+            text-decoration: none;
+        }
+        
+        form { display: flex; flex-direction: column; }
+        textarea, input[type="text"] { padding: 10px; border: 1px solid #ddd; border-radius: 3px; margin-bottom: 10px; font-family: Arial; }
+        button { padding: 10px; background-color: #0066cc; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background-color: #004c99; }
+        
+        h1 { margin: 20px 0 10px 0; }
+        h2 { margin: 15px 0 10px 0; }
+        h3 { margin: 15px 0 10px 0; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'post-list' %}"><strong>🏠 Blogi</strong></a>
+        <a href="{% url 'post-create' %}">+ Uusi postaus</a>
+        
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+                <span>👤 {{ user.username }}</span>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: white; cursor: pointer; text-decoration: none; padding: 0; margin: 0;">Kirjaudu ulos</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Kirjaudu sisään</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="post">
+        <h1>{{ post.title }}</h1>
+        <p class="meta">Kirjoittaja: {{ post.author.username }} | {{ post.created_at|date:"d.m.Y H:i" }}</p>
+        <p>{{ post.content }}</p>
+        
+        <div class="actions">
+            <a href="{% url 'post-list' %}">← Takaisin listaan</a>
+            {% if user == post.author %}
+                <a href="{% url 'post-delete' post.pk %}">Poista postaus</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; border-top: 2px solid #ddd; padding-top: 20px;">
+        <h2>Vastaukset ({{ comments.count }})</h2>
+
+        <h3>Kaikki vastaukset</h3>
+        {% if comments %}
+            {% for comment in comments %}
+            <div style="border: 1px solid #eee; padding: 15px; margin: 10px 0; border-radius: 5px; background: #f9f9f9;">
+                <p style="color: #666; font-size: 0.85em;"><strong>{{ comment.author.username }}</strong> - {{ comment.created_at|date:"d.m.Y H:i" }}</p>
+                <p style="margin-top: 10px;">{{ comment.content }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Ei vielä vastauksia. Ole ensimmäinen joka vastaa!</p>
+        {% endif %}
+
+        <h3 style="margin-top: 20px;">Lisää vastaus</h3>
+        {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'comment-create' post.pk %}" style="max-width: 500px;">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit">Lähetä vastaus</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Kirjaudu</a> voidaksesi vastata postaukseen.</p>
+        {% endif %}
+    </div>
+{% endblock %}

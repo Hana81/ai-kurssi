@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Kirjaudu{% endblock %}
+
+{% block content %}
+    <h1>Kirjaudu</h1>
+    
+    {% if form.non_field_errors %}
+        <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 3px; margin-bottom: 20px;">
+            {% for error in form.non_field_errors %}
+                <p style="color: #721c24;">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <form method="POST" style="max-width: 400px;">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            <label for="id_username">Käyttäjätunnus:</label><br>
+            <input type="text" name="username" id="id_username" required style="width: 100%; padding: 8px;">
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label for="id_password">Salasana:</label><br>
+            <input type="password" name="password" id="id_password" required style="width: 100%; padding: 8px;">
+        </div>
+        
+        <button type="submit">Kirjaudu</button>
+    </form>
+{% endblock %}

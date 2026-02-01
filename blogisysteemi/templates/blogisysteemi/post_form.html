@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Uusi postaus{% endblock %}
+
+{% block content %}
+    <h1>Uusi blogipostaus</h1>
+    
+    <form method="POST" style="max-width: 600px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Tallenna postaus</button>
+    </form>
+{% endblock %}

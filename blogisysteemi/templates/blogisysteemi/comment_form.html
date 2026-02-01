@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uusi vastaus</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
+        form { display: flex; flex-direction: column; }
+        textarea { padding: 10px; border: 1px solid #ddd; border-radius: 3px; font-family: Arial; }
+        button { padding: 10px; background-color: #0066cc; color: white; border: none; border-radius: 3px; cursor: pointer; margin-top: 15px; }
+        button:hover { background-color: #004c99; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <h1>Vastaa postaukseen</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Lähetä vastaus</button>
+    </form>
+    
+    <p><a href="{% url 'post-list' %}">Takaisin postausten listaan</a></p>
+</body>
+</html>
